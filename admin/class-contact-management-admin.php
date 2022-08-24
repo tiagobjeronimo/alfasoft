@@ -296,61 +296,6 @@ class Contact_Management_Admin
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/contact-management-admin.js', array('jquery'), $this->version, false);
 	}
 
-	public function cm_settings_init()
-	{
-		register_setting('cm', 'cm_options');
-
-		add_settings_section(
-			'cm_section_developers',
-			__('The Matrix has you.', 'cm'),
-			array($this, 'cm_section_developers_callback'),
-			'cm'
-		);
-
-		add_settings_field(
-			'cm_field_pill', // As of WP 4.6 this value is used only internally.
-			// Use $args' label_for to populate the id inside the callback.
-			__('Pill', 'cm'),
-			array($this, 'cm_field_pill_cb'),
-			'cm',
-			'cm_section_developers',
-			array(
-				'label_for'         => 'cm_field_pill',
-				'class'             => 'cm_row',
-				'cm_custom_data' => 'custom',
-			)
-		);
-	}
-
-	public function cm_section_developers_callback($args)
-	{
-	?>
-		<p id="<?php echo esc_attr($args['id']); ?>"><?php esc_html_e('Follow the white rabbit.', 'cm'); ?></p>
-	<?php
-	}
-
-	public function cm_field_pill_cb($args)
-	{
-		// Get the value of the setting we've registered with register_setting()
-		$options = get_option('cm_options');
-	?>
-		<select id="<?php echo esc_attr($args['label_for']); ?>" data-custom="<?php echo esc_attr($args['cm_custom_data']); ?>" name="cm_options[<?php echo esc_attr($args['label_for']); ?>]">
-			<option value="red" <?php echo isset($options[$args['label_for']]) ? (selected($options[$args['label_for']], 'red', false)) : (''); ?>>
-				<?php esc_html_e('red pill', 'cm'); ?>
-			</option>
-			<option value="blue" <?php echo isset($options[$args['label_for']]) ? (selected($options[$args['label_for']], 'blue', false)) : (''); ?>>
-				<?php esc_html_e('blue pill', 'cm'); ?>
-			</option>
-		</select>
-		<p class="description">
-			<?php esc_html_e('You take the blue pill and the story ends. You wake in your bed and you believe whatever you want to believe.', 'cm'); ?>
-		</p>
-		<p class="description">
-			<?php esc_html_e('You take the red pill and you stay in Wonderland and I show you how deep the rabbit-hole goes.', 'cm'); ?>
-		</p>
-	<?php
-	}
-
 	public function cm_options_page()
 	{
 		add_menu_page(
